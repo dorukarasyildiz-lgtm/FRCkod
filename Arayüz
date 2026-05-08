@@ -1,0 +1,93 @@
+import java.util.Scanner;
+import java.util.ArrayList;
+class aku1{
+    String evaluate;
+    double volt;
+    aku1(String evaluate,double volt){
+        this.evaluate = evaluate;
+        this.volt = volt;
+    }
+}
+public class Main {
+    static Scanner scanner = new Scanner(System.in);
+    static ArrayList<String> liste = new ArrayList<>();
+    static ArrayList<Boolean> liste2 = new ArrayList<>();
+    public static void main(String[] args){
+       boolean exit = true;
+        String giris = "";
+        while(exit){
+            System.out.println("1 - Madde Ekle");
+            System.out.println("2 - Kontrol Et");
+            giris = scanner.nextLine();
+            if(giris.equals("1")){add();
+            }
+            if(giris.equals("2")){
+                correct();
+                exit = false;
+            }
+        }
+    }
+static void add(){
+        int t = 0;
+        while(t < 3) {
+            System.out.println("Kaç madde girmnek istiyonuz?En az 3 tane(sayı girin):");
+            t = Integer.parseInt(scanner.nextLine());
+        }
+        for(int i = 0;i < t;i++){
+                System.out.println("Girmek istediğiniz maddeyi girin: ");
+                String input = scanner.nextLine();
+                liste.add(input);
+                liste2.add(false);
+        }
+}
+static void correct(){
+        boolean correct;
+        for(int i = 0;i < liste.size();i++){
+            System.out.println(liste.get(i));
+            System.out.print("true veya false girin: Diğer cevaplar geçersizdir ");
+            correct = scanner.nextBoolean();
+            scanner.nextLine();
+            liste2.set(i,correct);
+        }
+        System.out.println("İlk aküyü giriniz:(önce sağlık(fair/good) sonra voltaj ama lütfen ondalığı virgülle girin ");
+        String evaluate1 = scanner.nextLine();
+        double volt1 = scanner.nextDouble();
+        scanner.nextLine();
+
+        System.out.println("İkinci aküyü giriniz:(önce sağlık(fair/good) sonra voltaj ama ondalığı virgülle girin ");
+        String evaluate2 = scanner.nextLine();
+        double volt2 = scanner.nextDouble();
+        aku1 aku1 = new aku1(evaluate1,volt1);
+        aku1 aku2 = new aku1(evaluate2,volt2);
+        if(aku1.volt > aku2.volt && aku1.volt <= 13 && aku1.volt > 12.3){
+            System.out.println("Birinci akü seçildi.");
+        } else if(aku1.volt > aku2.volt && aku1.volt < 12.3) {
+            System.out.println("Birinci akü seçildi ama voltaş az");
+        }
+        else if(aku2.volt > aku1.volt && aku2.volt > 12.3 && aku2.volt <= 13) {
+            System.out.println("İkinci akü seçildi");
+        }
+        else if(aku2.volt > aku1.volt && aku2.volt < 12.3) {
+            System.out.println("İkinci akü seçildi ama voltaş az");
+        } else if (aku2.volt == aku1.volt) {
+            if((aku2.evaluate.equals("good")) && (aku1.evaluate.equals("fair"))){
+                System.out.println("İkinci akü seçildi");
+            } else if ((aku1.evaluate.equals("good")) && (aku2.evaluate.equals("fair"))) {
+                System.out.println("Birinci akü seçildi");
+            } else if (aku1.evaluate.equals(aku2.evaluate)) {
+                System.out.println("İki akü de aynı!");
+            }
+        }
+        for(int i = 0; i < liste.size();i++){
+            if(!liste2.get(i)){
+                boolean rectify = false;
+                    while (rectify == false){
+                        System.out.println("Şu madde yanlıştı: " + liste.get(i));
+                        rectify = scanner.nextBoolean();
+                    }
+                liste2.set(i,rectify);
+            }
+        }
+        System.out.println("Maça hazır");
+}
+}
